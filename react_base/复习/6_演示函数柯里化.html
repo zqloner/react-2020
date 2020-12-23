@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>演示函数柯里化</title>
+</head>
+<body>
+<script type="text/javascript">
+    //求三个数的和
+    function sum(param1) {
+      return (params2) => {
+        return (params3) => {
+          return param1 + params2 + params3
+        }
+      }
+    }
+    const result = sum(1)(2)(3)
+    console.log("result=>", result)
+</script>
+</body>
+</html>

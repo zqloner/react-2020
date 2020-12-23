@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>函数式组件使用props</title>
+</head>
+<body>
+<!--准备一个容器-->
+<div id="test"></div>
+<div id="test1"></div>
+<div id="test2"></div>
+
+
+<!--引入react核心库-->
+<script type="text/javascript" src="../js/react.development.js"></script>
+<!--引入react-dom，用于支持react操作DOM-->
+<script type="text/javascript" src="../js/react-dom.development.js"></script>
+<!--引入babel,用于将jsx转js-->
+<script type="text/javascript" src="../js/babel.min.js"></script>
+<!--引入prop-types,用于对组件标签属性进行限制-->
+<script type="text/javascript" src="../js/prop-types.js"></script>
+<script type="text/babel">/* 此处一定要写babel */
+  //创建组件
+  function Person(props) {
+    const {name,age,sex}= props
+    return (
+      <ul>
+        <li>姓名:{name}</li>
+        <li>年龄:{age}</li>
+        <li>性别:{sex}</li>
+      </ul>
+    )
+  }
+  //限制属性规则（对标签属性进行类型丶必要性限制）
+  Person.propTypes={
+    name:PropTypes.string.isRequired,//限制name必传且为字符串
+    sex:PropTypes.string,//限制sex为字符串
+    age:PropTypes.number,//限制age为数值
+    speak:PropTypes.func//限制speak为函数
+  }
+  //指定标签属性默认值(对应属性不传值得默认值)
+  Person.defaultProps={
+    sex:'男',//限制sex默认值
+    age:18//年龄默认值为18
+  }
+    //渲染组件到页面
+  ReactDOM.render(<Person name="tom" />, document.getElementById('test'));
+</script>
+</body>
+</html>

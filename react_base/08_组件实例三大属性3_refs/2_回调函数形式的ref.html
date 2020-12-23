@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>1_回调函数形式的ref</title>
+</head>
+<body>
+<div id="example"></div>
+<!--引入react核心库-->
+<script type="text/javascript" src="../js/react.development.js"></script>
+<!--引入react-dom，用于支持react操作DOM-->
+<script type="text/javascript" src="../js/react-dom.development.js"></script>
+<!--引入babel,用于将jsx转js-->
+<script type="text/javascript" src="../js/babel.min.js"></script>
+<script type="text/babel">
+
+    //创建组件
+  class Demo extends React.Component {
+    render() {
+      return (
+        <div>
+          <input ref={currentNode=>this.input1=currentNode}  id="input1" type="text" placeholder="点击按钮提示数据"/>&nbsp;
+          <button onClick={this.showData}>点我提示左侧的数据</button>&nbsp;
+          <input onBlur={this.showData2} ref={currentNode=>this.input2=currentNode} type="text" placeholder="失去焦点提示数据"/>
+        </div>
+      );
+    }
+    showData = ()=>{
+      /*
+        使用回调函数形式的ref
+       */
+      const {input1} = this
+      console.log(input1.value)
+      alert(input1.value)
+      }
+    showData2 = ()=>{
+      /*
+        使用回调函数形式的ref
+       */
+      const {input2} = this
+      console.log(input2.value)
+      alert(input2.value)
+    }
+  }
+
+  //渲染组件到页面
+  ReactDOM.render(<Demo/>, document.getElementById('example'));
+</script>
+</body>
+</html>

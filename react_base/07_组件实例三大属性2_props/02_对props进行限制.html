@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>对props进行限制</title>
+</head>
+<body>
+<!--准备一个容器-->
+<div id="test"></div>
+<div id="test1"></div>
+<div id="test2"></div>
+
+
+<!--引入react核心库-->
+<script type="text/javascript" src="../js/react.development.js"></script>
+<!--引入react-dom，用于支持react操作DOM-->
+<script type="text/javascript" src="../js/react-dom.development.js"></script>
+<!--引入babel,用于将jsx转js-->
+<script type="text/javascript" src="../js/babel.min.js"></script>
+<!--引入prop-types,用于对组件标签属性进行限制-->
+<script type="text/javascript" src="../js/prop-types.js"></script>
+<script type="text/babel">/* 此处一定要写babel */
+  //创建组件
+  class Person extends React.Component{
+    render() {
+      console.log(this)
+      return (
+        <ul>
+          <li>姓名:{this.props.name}</li>
+          <li>年龄:{this.props.age}</li>
+          <li>性别:{this.props.sex}</li>
+        </ul>
+      )
+    }
+  }
+    //限制属性规则（对标签属性进行类型丶必要性限制）
+    Person.propTypes={
+      name:PropTypes.string.isRequired,//限制name必传且为字符串
+      sex:PropTypes.string,//限制sex为字符串
+      age:PropTypes.number,//限制age为数值
+      speak:PropTypes.func//限制speak为函数
+    }
+    //指定标签属性默认值(对应属性不传值得默认值)
+    Person.defaultProps={
+      sex:'不男不女',//限制sex默认值
+      age:18//年龄默认值为18
+    }
+
+    //渲染组件到页面
+    ReactDOM.render(<Person name="tom" age={18} speek={speak} />, document.getElementById('test'));
+    ReactDOM.render(<Person name="Jerry" age={19} sex="男"/>, document.getElementById('test1'));
+    // ReactDOM.render(<Person name="老刘" age="18" sex="女"/>, document.getElementById('test2'));
+
+    const p = {name:'老刘',age:18,sex:'女'}
+    //ReactDOM.render(<Person name={p.name} age={p.age} sex={p.sex} />, document.getElementById('test2'));
+    ReactDOM.render(<Person {...p} />, document.getElementById('test2'));
+
+    function speak() {
+      console.log('我说话了')
+    }
+</script>
+</body>
+</html>

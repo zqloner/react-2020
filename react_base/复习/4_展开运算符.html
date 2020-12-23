@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>展开运算符</title>
+</head>
+<body>
+    <script type="text/javascript">
+      /*
+      展开数组
+       */
+        let arr1 = [1,3,5,7,9]
+        let arr2 = [2,4,6,8,10]
+        let obj1 = {name:'Tom',age:18,sex:'女'}
+        console.log('测试...复制一个对象',...arr1); //展开一个数组
+        // console.log({...obj1}); //展开一个对象,这行会报错。不能展开一个对象
+
+      /*
+      与函数结合使用
+       */
+      // 数组求和可以用reduce方法。并且...可作为可变长参数。
+      function sum(...numbers) {
+        return numbers.reduce(((previousValue, currentValue) => {
+          return previousValue+currentValue
+        }))
+      }
+        console.log('测试...与函数配合使用',sum(...arr1));
+
+      /*
+      可以复制一个对象
+       */
+    //    ...解构可以复制一个对象
+      let person1 = {name:'Tom',age:18,sex:'男'}
+      let person2 = {...person1}
+      //修改Person2的属性值并不会改变person1的值
+      person2.name='Jerry'
+        console.log('测试...复制一个对象',person1)
+        console.log('测试...复制一个对象',person2)
+
+      /*
+          可以合并对象
+       */
+      let person3 = {...person2,name:'Jack',address:'地球'}
+      console.log('测试...合并对象',person3)
+    </script>
+</body>
+</html>

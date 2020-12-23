@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>3_回调函数形式的ref回调执行次数的问题</title>
+</head>
+<body>
+<div id="example"></div>
+<!--引入react核心库-->
+<script type="text/javascript" src="../js/react.development.js"></script>
+<!--引入react-dom，用于支持react操作DOM-->
+<script type="text/javascript" src="../js/react-dom.development.js"></script>
+<!--引入babel,用于将jsx转js-->
+<script type="text/javascript" src="../js/babel.min.js"></script>
+<script type="text/babel">
+
+    //创建组件
+  class Demo extends React.Component {
+    state={
+      isHot:false
+    }
+    render() {
+      const {isHot}=this.state
+      return (
+        <div>
+          <h2>今天天气很{isHot?'炎热':'凉爽'}</h2>
+      { /*   注释写法:  <input ref={(currentNode)=>{this.input1=currentNode;console.log('调用次数的问题?',currentNode)}} type="text" placeholder="点击按钮提示数据"/>&nbsp;*/}
+          <input ref = {this.saveInput} type="text"/> &nbsp;
+          <button onClick={this.showInfo}>点我提示左侧的数据</button>
+          <button onClick={this.changeWeather}>点我切换天气</button>
+        </div>
+      );
+    }
+    /*
+    官网说明：
+          * 注意:下面说的是更新过程中才会被执行两次，并不是首次。并且说的是内联函数。
+          如果 ref 回调函数是以内联函数的方式定义的，在更新过程中它会被执行两次，
+          第一次传入参数 null，然后第二次会传入参数 DOM 元素。这是因为在每次渲染时会创建一个新的函数实例，所以 React 清空旧的 ref 并且设置新的。
+          通过将 ref 的回调函数定义成 class 的绑定函数的方式可以避免上述问题，但是大多数情况下它是无关紧要的。
+     */
+    showInfo=()=>{
+        const{input1} = this
+        alert(input1.value)
+      }
+    changeWeather=()=>{
+      const {isHot} = this.state
+      this.setState({isHot: !isHot})
+    }
+    saveInput = (c)=>{  //避免多次调用ref函数的问题。不过这是无关紧要的。用内联函数就可以。
+      this.input1=c;
+    }
+  }
+  //渲染组件到页面
+  ReactDOM.render(<Demo/>, document.getElementById('example'));
+</script>
+</body>
+</html>
