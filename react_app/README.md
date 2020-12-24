@@ -65,6 +65,8 @@
 
 ## 五、NavLink与封装NavLink
 				1.NavLink可以实现路由链接的高亮，通过activeClassName指定样式名
+				2.标签体的内容是一个特殊的标签属性children
+				3.通过this.props.children可以获取组件标签体内容
 
 ## 六、Switch的使用
 				1.通常情况下，path和component是一一对应的关系。
@@ -113,13 +115,46 @@
 
 ## 十二、编程式路由导航
 					借助this.prosp.history对象上的API对操作路由跳转、前进、后退
-							-this.prosp.history.push()
-							-this.prosp.history.replace()
-							-this.prosp.history.goBack()
-							-this.prosp.history.goForward()
-							-this.prosp.history.go()
+							-this.props.history.push()
+							-this.props.history.replace()
+							-this.props.history.goBack()
+							-this.props.history.goForward()
+							-this.props.history.go()
 
-## 十三、BrowserRouter与HashRouter的区别
+## 十三、WithRouter
+			1,WithRouter可将非路由组件包裹成路由组件。这样,被包裹的非路由组件就可以使用路由组件的那些Api了。
+			2,withRouter可以加工一般组件，让一般组件具备路由组件所特有的API。
+			3,withRouter的返回值是一个新组件。
+            ```
+                                import React, { Component } from 'react'
+                                import {withRouter} from 'react-router-dom'
+                                
+                                class Header extends Component {                
+                                    back = ()=>{
+                                        this.props.history.goBack()
+                                    }
+                                    forward = ()=>{
+                                        this.props.history.goForward()
+                                    }
+                                    go = ()=>{
+                                        this.props.history.go(-2)
+                                    }
+                                    render() {
+                                        console.log('Header组件收到的props是',this.props);
+                                        return (
+                                            <div className="page-header">
+                                                <h2>React Router Demo</h2>
+                                                <button onClick={this.back}>回退</button>&nbsp;
+                                                <button onClick={this.forward}>前进</button>&nbsp;
+                                                <button onClick={this.go}>go</button>
+                                            </div>
+                                        )
+                                    }
+                                }
+                                export default withRouter(Header)
+
+
+## 十四、BrowserRouter与HashRouter的区别
 			1.底层原理不一样：
 						BrowserRouter使用的是H5的history API，不兼容IE9及以下版本。
 						HashRouter使用的是URL的哈希值。
@@ -131,7 +166,7 @@
 						(2).HashRouter刷新后会导致路由state参数的丢失！！！
 			4.备注：HashRouter可以用于解决一些路径错误相关的问题。
 
-## 十四、antd的按需引入+自定主题
+## 十五、antd的按需引入+自定主题
 			1.安装依赖：yarn add react-app-rewired customize-cra babel-plugin-import less less-loader
 			2.修改package.json
 					....

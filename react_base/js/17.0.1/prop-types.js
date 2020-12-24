@@ -234,7 +234,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
 
   /**
    * Collection of methods that allow declaration and validation of props that are
-   * supplied to React components. Example usage:
+   * supplied to React pages. Example usage:
    *
    *   var Props = require('ReactPropTypes');
    *   var MyArticle = React.createClass({

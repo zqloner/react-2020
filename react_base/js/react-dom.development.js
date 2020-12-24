@@ -199,7 +199,7 @@ var invokeGuardedCallbackImpl = function (name, func, context, a, b, c, d, e, f)
       if (didError) {
         if (!didSetError) {
           // The callback errored, but the error event never fired.
-          error = new Error('An error was thrown inside one of your components, but React ' + "doesn't know what it was. This is likely due to browser " + 'flakiness. React does its best to preserve the "Pause on ' + 'exceptions" behavior of the DevTools, which requires some ' + "DEV-mode only tricks. It's possible that these don't work in " + 'your browser. Try triggering the error in production mode, ' + 'or switching to a modern browser. If you suspect that this is ' + 'actually an issue with React, please file an issue.');
+          error = new Error('An error was thrown inside one of your pages, but React ' + "doesn't know what it was. This is likely due to browser " + 'flakiness. React does its best to preserve the "Pause on ' + 'exceptions" behavior of the DevTools, which requires some ' + "DEV-mode only tricks. It's possible that these don't work in " + 'your browser. Try triggering the error in production mode, ' + 'or switching to a modern browser. If you suspect that this is ' + 'actually an issue with React, please file an issue.');
         } else if (isCrossOriginError) {
           error = new Error("A cross-origin error was thrown. React doesn't have access to " + 'the actual error object in development. ' + 'See https://fb.me/react-crossorigin-error for more information.');
         }
@@ -2149,7 +2149,7 @@ function batchedUpdates(fn, bookkeeping) {
     return _batchedUpdatesImpl(fn, bookkeeping);
   } finally {
     // Here we wait until all updates have propagated, which is important
-    // when using controlled components within layers:
+    // when using controlled pages within layers:
     // https://github.com/facebook/react/issues/1698
     // Then we restore state of any controlled component.
     isBatching = false;
@@ -3222,7 +3222,7 @@ var ReactControlledValuePropTypes = {
 
   /**
    * Provide a linked `value` attribute for controlled forms. You should not use
-   * this outside of the ReactDOM controlled form components.
+   * this outside of the ReactDOM controlled form pages.
    */
   ReactControlledValuePropTypes.checkPropTypes = function (tagName, props) {
     checkPropTypes_1(propTypes, props, 'prop', tagName, ReactDebugCurrentFrame$1.getStackAddendum);
@@ -3641,7 +3641,7 @@ function manualDispatchChangeEvent(nativeEvent) {
   // Batching is necessary here in order to ensure that all event handlers run
   // before the next rerender (including event handlers attached to ancestor
   // elements instead of directly on the input). Without this, controlled
-  // components don't work properly in conjunction with event bubbling because
+  // pages don't work properly in conjunction with event bubbling because
   // the component is rerendered and the value reverted before all the event
   // handlers can run. See https://github.com/facebook/react/issues/708.
   batchedUpdates(runEventInBatch, event);
@@ -4025,7 +4025,7 @@ var EnterLeaveEventPlugin = {
     }
 
     if (from === to) {
-      // Nothing pertains to our managed components.
+      // Nothing pertains to our managed pages.
       return null;
     }
 
@@ -4906,7 +4906,7 @@ function releaseTopLevelCallbackBookKeeping(instance) {
 function handleTopLevel(bookKeeping) {
   var targetInst = bookKeeping.targetInst;
 
-  // Loop through the hierarchy, in case there's any nested components.
+  // Loop through the hierarchy, in case there's any nested pages.
   // It's important that we build the array of ancestors before calling any
   // event handlers, because event handlers can modify the DOM, leading to
   // inconsistencies with ReactMount's node cache. See #1105.
@@ -7306,9 +7306,9 @@ function validateProperties$1(type, props) {
   if (props != null && props.value === null && !didWarnValueNull) {
     didWarnValueNull = true;
     if (type === 'select' && props.multiple) {
-      warning$1(false, '`value` prop on `%s` should not be null. ' + 'Consider using an empty array when `multiple` is set to `true` ' + 'to clear the component or `undefined` for uncontrolled components.', type);
+      warning$1(false, '`value` prop on `%s` should not be null. ' + 'Consider using an empty array when `multiple` is set to `true` ' + 'to clear the component or `undefined` for uncontrolled pages.', type);
     } else {
-      warning$1(false, '`value` prop on `%s` should not be null. ' + 'Consider using an empty string to clear the component or `undefined` ' + 'for uncontrolled components.', type);
+      warning$1(false, '`value` prop on `%s` should not be null. ' + 'Consider using an empty string to clear the component or `undefined` ' + 'for uncontrolled pages.', type);
     }
   }
 }
@@ -7714,7 +7714,7 @@ function createElement(type, props, rootContainerElement, parentNamespace) {
       isCustomComponentTag = isCustomComponent(type, props);
       // Should this check be gated by parent namespace? Not sure we want to
       // allow <SVG> or <mATH>.
-      !(isCustomComponentTag || type === type.toLowerCase()) ? warning$1(false, '<%s /> is using incorrect casing. ' + 'Use PascalCase for React components, ' + 'or lowercase for HTML elements.', type) : void 0;
+      !(isCustomComponentTag || type === type.toLowerCase()) ? warning$1(false, '<%s /> is using incorrect casing. ' + 'Use PascalCase for React pages, ' + 'or lowercase for HTML elements.', type) : void 0;
     }
 
     if (type === 'script') {
@@ -7813,7 +7813,7 @@ function setInitialProperties(domElement, tag, rawProps, rootContainerElement) {
       initWrapperState(domElement, rawProps);
       props = getHostProps(domElement, rawProps);
       trapBubbledEvent(TOP_INVALID, domElement);
-      // For controlled components we always need to ensure we're listening
+      // For controlled pages we always need to ensure we're listening
       // to onChange. Even if there is no listener.
       ensureListeningTo(rootContainerElement, 'onChange');
       break;
@@ -7825,7 +7825,7 @@ function setInitialProperties(domElement, tag, rawProps, rootContainerElement) {
       initWrapperState$1(domElement, rawProps);
       props = getHostProps$2(domElement, rawProps);
       trapBubbledEvent(TOP_INVALID, domElement);
-      // For controlled components we always need to ensure we're listening
+      // For controlled pages we always need to ensure we're listening
       // to onChange. Even if there is no listener.
       ensureListeningTo(rootContainerElement, 'onChange');
       break;
@@ -7833,7 +7833,7 @@ function setInitialProperties(domElement, tag, rawProps, rootContainerElement) {
       initWrapperState$2(domElement, rawProps);
       props = getHostProps$3(domElement, rawProps);
       trapBubbledEvent(TOP_INVALID, domElement);
-      // For controlled components we always need to ensure we're listening
+      // For controlled pages we always need to ensure we're listening
       // to onChange. Even if there is no listener.
       ensureListeningTo(rootContainerElement, 'onChange');
       break;
@@ -8132,7 +8132,7 @@ function diffHydratedProperties(domElement, tag, rawProps, parentNamespace, root
     case 'input':
       initWrapperState(domElement, rawProps);
       trapBubbledEvent(TOP_INVALID, domElement);
-      // For controlled components we always need to ensure we're listening
+      // For controlled pages we always need to ensure we're listening
       // to onChange. Even if there is no listener.
       ensureListeningTo(rootContainerElement, 'onChange');
       break;
@@ -8142,14 +8142,14 @@ function diffHydratedProperties(domElement, tag, rawProps, parentNamespace, root
     case 'select':
       initWrapperState$1(domElement, rawProps);
       trapBubbledEvent(TOP_INVALID, domElement);
-      // For controlled components we always need to ensure we're listening
+      // For controlled pages we always need to ensure we're listening
       // to onChange. Even if there is no listener.
       ensureListeningTo(rootContainerElement, 'onChange');
       break;
     case 'textarea':
       initWrapperState$2(domElement, rawProps);
       trapBubbledEvent(TOP_INVALID, domElement);
-      // For controlled components we always need to ensure we're listening
+      // For controlled pages we always need to ensure we're listening
       // to onChange. Even if there is no listener.
       ensureListeningTo(rootContainerElement, 'onChange');
       break;
@@ -9312,7 +9312,7 @@ var endFiberMark = function (fiber, phase, warning) {
 };
 
 var shouldIgnoreFiber = function (fiber) {
-  // Host components should be skipped in the timeline.
+  // Host pages should be skipped in the timeline.
   // We could check typeof fiber.type, but does this work with RN?
   switch (fiber.tag) {
     case HostRoot:
@@ -10311,7 +10311,7 @@ key, pendingProps, owner, mode, expirationTime) {
               info += '\n\nCheck the render method of `' + ownerName + '`.';
             }
           }
-          invariant(false, 'Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s', type == null ? type : typeof type, info);
+          invariant(false, 'Element type is invalid: expected a string (for built-in pages) or a class/function (for composite pages) but got: %s.%s', type == null ? type : typeof type, info);
         }
     }
   }
@@ -10643,7 +10643,7 @@ var ReactStrictModeWarnings = {
   var pendingUnsafeLifecycleWarnings = new Map();
   var pendingLegacyContextWarning = new Map();
 
-  // Tracks components we have already warned about.
+  // Tracks pages we have already warned about.
   var didWarnAboutDeprecatedLifecycles = new Set();
   var didWarnAboutUnsafeLifecycles = new Set();
   var didWarnAboutLegacyContext = new Set();
@@ -10681,7 +10681,7 @@ var ReactStrictModeWarnings = {
           var suggestion = LIFECYCLE_SUGGESTIONS[lifecycle];
           var sortedComponentNames = setToSortedString(componentNames);
 
-          lifecyclesWarningMessages.push(formatted + ': Please update the following components to use ' + (suggestion + ' instead: ' + sortedComponentNames));
+          lifecyclesWarningMessages.push(formatted + ': Please update the following pages to use ' + (suggestion + ' instead: ' + sortedComponentNames));
         }
       });
 
@@ -10719,7 +10719,7 @@ var ReactStrictModeWarnings = {
 
       var sortedNames = setToSortedString(uniqueNames);
 
-      lowPriorityWarning$1(false, 'componentWillMount is deprecated and will be removed in the next major version. ' + 'Use componentDidMount instead. As a temporary workaround, ' + 'you can rename to UNSAFE_componentWillMount.' + '\n\nPlease update the following components: %s' + '\n\nLearn more about this warning here:' + '\nhttps://fb.me/react-async-component-lifecycle-hooks', sortedNames);
+      lowPriorityWarning$1(false, 'componentWillMount is deprecated and will be removed in the next major version. ' + 'Use componentDidMount instead. As a temporary workaround, ' + 'you can rename to UNSAFE_componentWillMount.' + '\n\nPlease update the following pages: %s' + '\n\nLearn more about this warning here:' + '\nhttps://fb.me/react-async-component-lifecycle-hooks', sortedNames);
 
       pendingComponentWillMountWarnings = [];
     }
@@ -10733,7 +10733,7 @@ var ReactStrictModeWarnings = {
 
       var _sortedNames = setToSortedString(_uniqueNames);
 
-      lowPriorityWarning$1(false, 'componentWillReceiveProps is deprecated and will be removed in the next major version. ' + 'Use static getDerivedStateFromProps instead.' + '\n\nPlease update the following components: %s' + '\n\nLearn more about this warning here:' + '\nhttps://fb.me/react-async-component-lifecycle-hooks', _sortedNames);
+      lowPriorityWarning$1(false, 'componentWillReceiveProps is deprecated and will be removed in the next major version. ' + 'Use static getDerivedStateFromProps instead.' + '\n\nPlease update the following pages: %s' + '\n\nLearn more about this warning here:' + '\nhttps://fb.me/react-async-component-lifecycle-hooks', _sortedNames);
 
       pendingComponentWillReceivePropsWarnings = [];
     }
@@ -10747,7 +10747,7 @@ var ReactStrictModeWarnings = {
 
       var _sortedNames2 = setToSortedString(_uniqueNames2);
 
-      lowPriorityWarning$1(false, 'componentWillUpdate is deprecated and will be removed in the next major version. ' + 'Use componentDidUpdate instead. As a temporary workaround, ' + 'you can rename to UNSAFE_componentWillUpdate.' + '\n\nPlease update the following components: %s' + '\n\nLearn more about this warning here:' + '\nhttps://fb.me/react-async-component-lifecycle-hooks', _sortedNames2);
+      lowPriorityWarning$1(false, 'componentWillUpdate is deprecated and will be removed in the next major version. ' + 'Use componentDidUpdate instead. As a temporary workaround, ' + 'you can rename to UNSAFE_componentWillUpdate.' + '\n\nPlease update the following pages: %s' + '\n\nLearn more about this warning here:' + '\nhttps://fb.me/react-async-component-lifecycle-hooks', _sortedNames2);
 
       pendingComponentWillUpdateWarnings = [];
     }
@@ -10759,7 +10759,7 @@ var ReactStrictModeWarnings = {
       return;
     }
 
-    // Don't warn about react-lifecycles-compat polyfilled components.
+    // Don't warn about react-lifecycles-compat polyfilled pages.
     if (typeof instance.componentWillMount === 'function' && instance.componentWillMount.__suppressDeprecationWarning !== true) {
       pendingComponentWillMountWarnings.push(fiber);
     }
@@ -10852,7 +10852,7 @@ var ReactStrictModeWarnings = {
       var sortedNames = setToSortedString(uniqueNames);
       var strictRootComponentStack = getStackByFiberInDevAndProd(strictRoot);
 
-      warningWithoutStack$1(false, 'Legacy context API has been detected within a strict-mode tree: %s' + '\n\nPlease update the following components: %s' + '\n\nLearn more about this warning here:' + '\nhttps://fb.me/react-strict-mode-warnings', strictRootComponentStack, sortedNames);
+      warningWithoutStack$1(false, 'Legacy context API has been detected within a strict-mode tree: %s' + '\n\nPlease update the following pages: %s' + '\n\nLearn more about this warning here:' + '\nhttps://fb.me/react-strict-mode-warnings', strictRootComponentStack, sortedNames);
     });
   };
 }
@@ -11487,7 +11487,7 @@ function constructClassInstance(workInProgress, ctor, props, renderExpirationTim
         var newApiName = typeof ctor.getDerivedStateFromProps === 'function' ? 'getDerivedStateFromProps()' : 'getSnapshotBeforeUpdate()';
         if (!didWarnAboutLegacyLifecyclesAndDerivedState.has(_componentName)) {
           didWarnAboutLegacyLifecyclesAndDerivedState.add(_componentName);
-          warningWithoutStack$1(false, 'Unsafe legacy lifecycles will not be called for components using new component APIs.\n\n' + '%s uses %s but also contains the following legacy lifecycles:%s%s%s\n\n' + 'The above lifecycles should be removed. Learn more about this warning here:\n' + 'https://fb.me/react-async-component-lifecycle-hooks', _componentName, newApiName, foundWillMountName !== null ? '\n  ' + foundWillMountName : '', foundWillReceivePropsName !== null ? '\n  ' + foundWillReceivePropsName : '', foundWillUpdateName !== null ? '\n  ' + foundWillUpdateName : '');
+          warningWithoutStack$1(false, 'Unsafe legacy lifecycles will not be called for pages using new component APIs.\n\n' + '%s uses %s but also contains the following legacy lifecycles:%s%s%s\n\n' + 'The above lifecycles should be removed. Learn more about this warning here:\n' + 'https://fb.me/react-async-component-lifecycle-hooks', _componentName, newApiName, foundWillMountName !== null ? '\n  ' + foundWillMountName : '', foundWillReceivePropsName !== null ? '\n  ' + foundWillReceivePropsName : '', foundWillUpdateName !== null ? '\n  ' + foundWillUpdateName : '');
         }
       }
     }
@@ -11597,8 +11597,8 @@ function mountClassInstance(workInProgress, ctor, newProps, renderExpirationTime
     instance.state = workInProgress.memoizedState;
   }
 
-  // In order to support react-lifecycles-compat polyfilled components,
-  // Unsafe lifecycles should not be invoked for components using the new APIs.
+  // In order to support react-lifecycles-compat polyfilled pages,
+  // Unsafe lifecycles should not be invoked for pages using the new APIs.
   if (typeof ctor.getDerivedStateFromProps !== 'function' && typeof instance.getSnapshotBeforeUpdate !== 'function' && (typeof instance.UNSAFE_componentWillMount === 'function' || typeof instance.componentWillMount === 'function')) {
     callComponentWillMount(workInProgress, instance);
     // If we had additional state updates during this life-cycle, let's
@@ -11638,8 +11638,8 @@ function resumeMountClassInstance(workInProgress, ctor, newProps, renderExpirati
   // ever the previously attempted to render - not the "current". However,
   // during componentDidUpdate we pass the "current" props.
 
-  // In order to support react-lifecycles-compat polyfilled components,
-  // Unsafe lifecycles should not be invoked for components using the new APIs.
+  // In order to support react-lifecycles-compat polyfilled pages,
+  // Unsafe lifecycles should not be invoked for pages using the new APIs.
   if (!hasNewLifecycles && (typeof instance.UNSAFE_componentWillReceiveProps === 'function' || typeof instance.componentWillReceiveProps === 'function')) {
     if (oldProps !== newProps || oldContext !== nextContext) {
       callComponentWillReceiveProps(workInProgress, instance, newProps, nextContext);
@@ -11672,8 +11672,8 @@ function resumeMountClassInstance(workInProgress, ctor, newProps, renderExpirati
   var shouldUpdate = checkHasForceUpdateAfterProcessing() || checkShouldComponentUpdate(workInProgress, ctor, oldProps, newProps, oldState, newState, nextContext);
 
   if (shouldUpdate) {
-    // In order to support react-lifecycles-compat polyfilled components,
-    // Unsafe lifecycles should not be invoked for components using the new APIs.
+    // In order to support react-lifecycles-compat polyfilled pages,
+    // Unsafe lifecycles should not be invoked for pages using the new APIs.
     if (!hasNewLifecycles && (typeof instance.UNSAFE_componentWillMount === 'function' || typeof instance.componentWillMount === 'function')) {
       startPhaseTimer(workInProgress, 'componentWillMount');
       if (typeof instance.componentWillMount === 'function') {
@@ -11733,8 +11733,8 @@ function updateClassInstance(current, workInProgress, ctor, newProps, renderExpi
   // ever the previously attempted to render - not the "current". However,
   // during componentDidUpdate we pass the "current" props.
 
-  // In order to support react-lifecycles-compat polyfilled components,
-  // Unsafe lifecycles should not be invoked for components using the new APIs.
+  // In order to support react-lifecycles-compat polyfilled pages,
+  // Unsafe lifecycles should not be invoked for pages using the new APIs.
   if (!hasNewLifecycles && (typeof instance.UNSAFE_componentWillReceiveProps === 'function' || typeof instance.componentWillReceiveProps === 'function')) {
     if (oldProps !== newProps || oldContext !== nextContext) {
       callComponentWillReceiveProps(workInProgress, instance, newProps, nextContext);
@@ -11775,8 +11775,8 @@ function updateClassInstance(current, workInProgress, ctor, newProps, renderExpi
   var shouldUpdate = checkHasForceUpdateAfterProcessing() || checkShouldComponentUpdate(workInProgress, ctor, oldProps, newProps, oldState, newState, nextContext);
 
   if (shouldUpdate) {
-    // In order to support react-lifecycles-compat polyfilled components,
-    // Unsafe lifecycles should not be invoked for components using the new APIs.
+    // In order to support react-lifecycles-compat polyfilled pages,
+    // Unsafe lifecycles should not be invoked for pages using the new APIs.
     if (!hasNewLifecycles && (typeof instance.UNSAFE_componentWillUpdate === 'function' || typeof instance.componentWillUpdate === 'function')) {
       startPhaseTimer(workInProgress, 'componentWillUpdate');
       if (typeof instance.componentWillUpdate === 'function') {
@@ -11882,7 +11882,7 @@ function coerceRef(returnFiber, current$$1, element) {
       var inst = void 0;
       if (owner) {
         var ownerFiber = owner;
-        !(ownerFiber.tag === ClassComponent) ? invariant(false, 'Function components cannot have refs. Did you mean to use React.forwardRef()?') : void 0;
+        !(ownerFiber.tag === ClassComponent) ? invariant(false, 'Function pages cannot have refs. Did you mean to use React.forwardRef()?') : void 0;
         inst = ownerFiber.stateNode;
       }
       !inst ? invariant(false, 'Missing owner for string ref %s. This error is likely caused by a bug in React. Please file an issue.', mixedRef) : void 0;
@@ -12267,7 +12267,7 @@ function ChildReconciler(shouldTrackSideEffects) {
             knownKeys.add(key);
             break;
           }
-          warning$1(false, 'Encountered two children with the same key, `%s`. ' + 'Keys should be unique so that components maintain their identity ' + 'across updates. Non-unique keys may cause children to be ' + 'duplicated and/or omitted — the behavior is unsupported and ' + 'could change in a future version.', key);
+          warning$1(false, 'Encountered two children with the same key, `%s`. ' + 'Keys should be unique so that pages maintain their identity ' + 'across updates. Non-unique keys may cause children to be ' + 'duplicated and/or omitted — the behavior is unsupported and ' + 'could change in a future version.', key);
           break;
         default:
           break;
@@ -13004,7 +13004,7 @@ function renderWithHooks(current, workInProgress, Component, props, refOrContext
 
   // TODO Warn if no hooks are used at all during mount, then some are used during update.
   // Currently we will identify the update render as a mount because nextCurrentHook === null.
-  // This is tricky because it's valid for certain types of components (e.g. React.lazy)
+  // This is tricky because it's valid for certain types of pages (e.g. React.lazy)
 
   // Using nextCurrentHook to differentiate between mount/update only works if at least one stateful hook is used.
   // Non-stateful hooks (e.g. context) don't get added to memoizedState,
@@ -13712,7 +13712,7 @@ var InvalidNestedHooksDispatcherOnUpdateInDEV = null;
 
 {
   var warnInvalidContextAccess = function () {
-    warning$1(false, 'Context can only be read while React is rendering. ' + 'In classes, you can read it in the render method or getDerivedStateFromProps. ' + 'In function components, you can read it directly in the function body, but not ' + 'inside Hooks like useReducer() or useMemo().');
+    warning$1(false, 'Context can only be read while React is rendering. ' + 'In classes, you can read it in the render method or getDerivedStateFromProps. ' + 'In function pages, you can read it directly in the function body, but not ' + 'inside Hooks like useReducer() or useMemo().');
   };
 
   var warnInvalidHookAccess = function () {
@@ -14438,7 +14438,7 @@ function popHydrationState(fiber) {
 
   // If we have any remaining hydratable nodes, we need to delete them now.
   // We only do this deeper than head and body since they tend to have random
-  // other nodes in them. We also ignore components with pure text content in
+  // other nodes in them. We also ignore pages with pure text content in
   // side of them.
   // TODO: Better heuristic.
   if (fiber.tag !== HostComponent || type !== 'head' && type !== 'body' && !shouldSetTextContent(type, fiber.memoizedProps)) {
@@ -14545,7 +14545,7 @@ function updateForwardRef(current$$1, workInProgress, Component, nextProps, rend
     setCurrentPhase('render');
     nextChildren = renderWithHooks(current$$1, workInProgress, render, nextProps, ref, renderExpirationTime);
     if (debugRenderPhaseSideEffects || debugRenderPhaseSideEffectsForStrictMode && workInProgress.mode & StrictMode) {
-      // Only double-render components with Hooks
+      // Only double-render pages with Hooks
       if (workInProgress.memoizedState !== null) {
         nextChildren = renderWithHooks(current$$1, workInProgress, render, nextProps, ref, renderExpirationTime);
       }
@@ -14715,7 +14715,7 @@ function updateFunctionComponent(current$$1, workInProgress, Component, nextProp
     setCurrentPhase('render');
     nextChildren = renderWithHooks(current$$1, workInProgress, Component, nextProps, context, renderExpirationTime);
     if (debugRenderPhaseSideEffects || debugRenderPhaseSideEffectsForStrictMode && workInProgress.mode & StrictMode) {
-      // Only double-render components with Hooks
+      // Only double-render pages with Hooks
       if (workInProgress.memoizedState !== null) {
         nextChildren = renderWithHooks(current$$1, workInProgress, Component, nextProps, context, renderExpirationTime);
       }
@@ -15144,7 +15144,7 @@ function mountIndeterminateComponent(_current, workInProgress, Component, render
     workInProgress.tag = FunctionComponent;
     {
       if (debugRenderPhaseSideEffects || debugRenderPhaseSideEffectsForStrictMode && workInProgress.mode & StrictMode) {
-        // Only double-render components with Hooks
+        // Only double-render pages with Hooks
         if (workInProgress.memoizedState !== null) {
           value = renderWithHooks(null, workInProgress, Component, props, context, renderExpirationTime);
         }
@@ -15176,7 +15176,7 @@ function validateFunctionComponentInDev(workInProgress, Component) {
     }
     if (!didWarnAboutFunctionRefs[warningKey]) {
       didWarnAboutFunctionRefs[warningKey] = true;
-      warning$1(false, 'Function components cannot be given refs. ' + 'Attempts to access this ref will fail. ' + 'Did you mean to use React.forwardRef()?%s', info);
+      warning$1(false, 'Function pages cannot be given refs. ' + 'Attempts to access this ref will fail. ' + 'Did you mean to use React.forwardRef()?%s', info);
     }
   }
 
@@ -15184,7 +15184,7 @@ function validateFunctionComponentInDev(workInProgress, Component) {
     var componentName = getComponentName(Component) || 'Unknown';
 
     if (!didWarnAboutGetDerivedStateOnFunctionComponent[componentName]) {
-      warningWithoutStack$1(false, '%s: Function components do not support getDerivedStateFromProps.', componentName);
+      warningWithoutStack$1(false, '%s: Function pages do not support getDerivedStateFromProps.', componentName);
       didWarnAboutGetDerivedStateOnFunctionComponent[componentName] = true;
     }
   }
@@ -15193,7 +15193,7 @@ function validateFunctionComponentInDev(workInProgress, Component) {
     var _componentName = getComponentName(Component) || 'Unknown';
 
     if (!didWarnAboutContextTypeOnFunctionComponent[_componentName]) {
-      warningWithoutStack$1(false, '%s: Function components do not support contextType.', _componentName);
+      warningWithoutStack$1(false, '%s: Function pages do not support contextType.', _componentName);
       didWarnAboutContextTypeOnFunctionComponent[_componentName] = true;
     }
   }
@@ -16030,7 +16030,7 @@ function readContext(context, observedBits) {
   {
     // This warning would fire if you read context inside a Hook like useMemo.
     // Unlike the class check below, it's not enforced in production for perf.
-    !!isDisallowedContextReadInDEV ? warning$1(false, 'Context can only be read while React is rendering. ' + 'In classes, you can read it in the render method or getDerivedStateFromProps. ' + 'In function components, you can read it directly in the function body, but not ' + 'inside Hooks like useReducer() or useMemo().') : void 0;
+    !!isDisallowedContextReadInDEV ? warning$1(false, 'Context can only be read while React is rendering. ' + 'In classes, you can read it in the render method or getDerivedStateFromProps. ' + 'In function pages, you can read it directly in the function body, but not ' + 'inside Hooks like useReducer() or useMemo().') : void 0;
   }
 
   if (lastContextWithAllBitsObserved === context) {
@@ -16054,7 +16054,7 @@ function readContext(context, observedBits) {
     };
 
     if (lastContextDependency === null) {
-      !(currentlyRenderingFiber !== null) ? invariant(false, 'Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo().') : void 0;
+      !(currentlyRenderingFiber !== null) ? invariant(false, 'Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function pages, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo().') : void 0;
 
       // This is the first dependency for this component. Create a new list.
       lastContextDependency = contextItem;
@@ -16506,7 +16506,7 @@ function processUpdateQueue(workInProgress, queue, props, instance, renderExpira
   // This should be fine because the only two other things that contribute to
   // expiration time are props and context. We're already in the middle of the
   // begin phase by the time we start processing the queue, so we've already
-  // dealt with the props. Context in components that specify
+  // dealt with the props. Context in pages that specify
   // shouldComponentUpdate is tricky; but we'll have to account for
   // that regardless.
   workInProgress.expirationTime = newExpirationTime;
@@ -17184,7 +17184,7 @@ function logCapturedError(capturedError) {
       // https://github.com/facebook/react/pull/13384
     }
 
-    var componentNameMessage = componentName ? 'The above error occurred in the <' + componentName + '> component:' : 'The above error occurred in one of your React components:';
+    var componentNameMessage = componentName ? 'The above error occurred in the <' + componentName + '> component:' : 'The above error occurred in one of your React pages:';
 
     var errorBoundaryMessage = void 0;
     // errorBoundaryFound check is sufficient; errorBoundaryName check is to satisfy Flow.
@@ -17477,9 +17477,9 @@ function commitLifeCycles(finishedRoot, current$$1, finishedWork, committedExpir
       {
         var _instance2 = finishedWork.stateNode;
 
-        // Renderers may schedule work to be done after host components are mounted
+        // Renderers may schedule work to be done after host pages are mounted
         // (eg DOM renderer may schedule auto-focus for inputs and form controls).
-        // These effects should only be committed when components are first mounted,
+        // These effects should only be committed when pages are first mounted,
         // aka when there is no current/alternate.
         if (current$$1 === null && finishedWork.effectTag & Update) {
           var type = finishedWork.type;
@@ -17953,14 +17953,14 @@ function unmountHostComponents(current$$1) {
         // We will reassign it back when we pop the portal on the way up.
         currentParent = node.stateNode.containerInfo;
         currentParentIsContainer = true;
-        // Visit children because portals might contain host components.
+        // Visit children because portals might contain host pages.
         node.child.return = node;
         node = node.child;
         continue;
       }
     } else {
       commitUnmount(node);
-      // Visit children because we may find more host components below.
+      // Visit children because we may find more host pages below.
       if (node.child !== null) {
         node.child.return = node;
         node = node.child;
@@ -18043,7 +18043,7 @@ function commitWork(current$$1, finishedWork) {
           // this case.
           var oldProps = current$$1 !== null ? current$$1.memoizedProps : newProps;
           var type = finishedWork.type;
-          // TODO: Type the updateQueue to be specific to host components.
+          // TODO: Type the updateQueue to be specific to host pages.
           var updatePayload = finishedWork.updateQueue;
           finishedWork.updateQueue = null;
           if (updatePayload !== null) {
@@ -20785,7 +20785,7 @@ var overrideProps = null;
     return copyWithSetImpl(obj, path, 0, value);
   };
 
-  // Support DevTools props for function components, forwardRef, memo, host components, etc.
+  // Support DevTools props for function pages, forwardRef, memo, host pages, etc.
   overrideProps = function (fiber, path, value) {
     flushPassiveEffects();
     fiber.pendingProps = copyWithSet(fiber.memoizedProps, path, value);
@@ -20873,9 +20873,9 @@ var didWarnAboutUnstableCreatePortal = false;
     var rootEl = getReactRootElementInContainer(container);
     var hasNonRootReactChild = !!(rootEl && getInstanceFromNode$1(rootEl));
 
-    !(!hasNonRootReactChild || isRootRenderedBySomeReact) ? warningWithoutStack$1(false, 'render(...): Replacing React-rendered children with a new root ' + 'component. If you intended to update the children of this node, ' + 'you should instead have the existing children update their state ' + 'and render the new components instead of calling ReactDOM.render.') : void 0;
+    !(!hasNonRootReactChild || isRootRenderedBySomeReact) ? warningWithoutStack$1(false, 'render(...): Replacing React-rendered children with a new root ' + 'component. If you intended to update the children of this node, ' + 'you should instead have the existing children update their state ' + 'and render the new pages instead of calling ReactDOM.render.') : void 0;
 
-    !(container.nodeType !== ELEMENT_NODE || !container.tagName || container.tagName.toUpperCase() !== 'BODY') ? warningWithoutStack$1(false, 'render(): Rendering components directly into document.body is ' + 'discouraged, since its children are often manipulated by third-party ' + 'scripts and browser extensions. This may lead to subtle ' + 'reconciliation issues. Try rendering into a container element created ' + 'for your app.') : void 0;
+    !(container.nodeType !== ELEMENT_NODE || !container.tagName || container.tagName.toUpperCase() !== 'BODY') ? warningWithoutStack$1(false, 'render(): Rendering pages directly into document.body is ' + 'discouraged, since its children are often manipulated by third-party ' + 'scripts and browser extensions. This may lead to subtle ' + 'reconciliation issues. Try rendering into a container element created ' + 'for your app.') : void 0;
   };
 
   warnOnInvalidCallback = function (callback, callerName) {
